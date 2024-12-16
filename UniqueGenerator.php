@@ -42,25 +42,26 @@ class UniqueGenerator {
 	 * @return string
 	 * @throws \Exception
 	 */
-	public static function generate(string $prefix = null , int $length = 30, string $chars = self::NUM_UPPER_LOWER): string {
+	public static function generate(string $prefix = '', int $length = 30, string $chars = self::NUM_UPPER_LOWER): string {
 
 		// Length of character list
-		$chars_length = (strlen($chars) - 1);
+		$chars_length = strlen($chars) - 1;
 
-		// Start our string
+        // Start the string
 		$string = $chars[random_int(0, $chars_length)];
 
 		// Generate random string
-		for ($i = 1; $i < $length; $i = strlen($string))
-		{
+        while (strlen($string) < $length) {
 			// Grab a random character from our list
 			$r = $chars[random_int(0, $chars_length)];
 
-			// Make sure the same two characters don't appear next to each other
-			if ($r != $string[$i - 1]) $string .=  $r;
+			// Make sure the same two characters don't appear next to each other Ensure no consecutive duplicates
+			if ($r !== $string[-1]) {
+                $string .= $r;
+            }
 		}
 
-		// Return the string
+        // Return the final string with prefix
 		return $prefix . $string ;
 	}
 
